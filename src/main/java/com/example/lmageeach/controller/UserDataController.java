@@ -1,4 +1,4 @@
-package com.example.lmageeach.controller.UserDataCon;
+package com.example.lmageeach.controller;
 
 import com.example.lmageeach.model.UserData;
 import com.example.lmageeach.service.UserDataSer.UserDataServiceImp.UserDataServiceImpl;
@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/wudi")
+@RequestMapping("/user")
 public class UserDataController {
 
     @Resource
@@ -24,7 +24,7 @@ public class UserDataController {
     }
 
     //个人信息查询
-    @RequestMapping("/userInformation")
+    @RequestMapping("/Information")
     public Result userInformation(HttpSession session){
         return userDataService.userInformation(session);
     }

@@ -1,6 +1,8 @@
 package com.example.lmageeach.model;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDate;
@@ -8,8 +10,9 @@ import java.time.LocalDate;
 @TableName("lmage")
 public class LmageData {
 
+    @TableId(value="id",type = IdType.AUTO)
     public int id;//主键
-    public int lmageId;//图片id
+    public String lmageId;//图片id
     public String lmageName;//图片名称
     public String lmageData;//图片地址
     public String lmageType;//图片类型
@@ -28,11 +31,11 @@ public class LmageData {
         this.id = id;
     }
 
-    public int getLmageId() {
+    public String getLmageId() {
         return lmageId;
     }
 
-    public void setLmageId(int lmageId) {
+    public void setLmageId(String lmageId) {
         this.lmageId = lmageId;
     }
 
