@@ -34,6 +34,12 @@ public class LmageDataController {
         return lmageDataService.upload(file,lmageData,session);
     }
 
+    //查看所有作品
+    @RequestMapping("/imageAll")
+    public Result imageAll(){
+        return lmageDataService.imageAll();
+    }
+
     /**
      * 作品搜索
      * @param lmageName 搜索名称或者标签名称

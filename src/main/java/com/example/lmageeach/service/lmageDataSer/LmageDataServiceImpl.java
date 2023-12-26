@@ -136,4 +136,9 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
         return Result.fail("无作品");
     }
+
+    //查看所有作品
+    public Result imageAll() {
+        return Result.ok(lmageDataMapper.selectList(null));
+    }
 }
