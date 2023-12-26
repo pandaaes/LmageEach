@@ -1,31 +1,25 @@
-package com.example.lmageeach.service.lmageDataSer.LmageDataServiceImp;
+package com.example.lmageeach.service.lmageDataSer;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.lmageeach.mapper.CommentsDataMapper;
 import com.example.lmageeach.mapper.LabelDataMapper;
 import com.example.lmageeach.mapper.LmageDataMapper;
 import com.example.lmageeach.mapper.UserDataMapper;
+import com.example.lmageeach.model.CommentsData;
 import com.example.lmageeach.model.LabelData;
 import com.example.lmageeach.model.LmageData;
 import com.example.lmageeach.model.UserData;
-import com.example.lmageeach.service.LabelDataSer.LabelDataServiceImp.LabelDataServiceImpl;
-import com.example.lmageeach.service.lmageDataSer.LmageDataService;
 import com.example.lmageeach.util.Result;
-import com.google.protobuf.compiler.PluginProtos;
-import org.apache.el.parser.Token;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.parser.Entity;
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.VarHandle;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +39,8 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     @Resource
     private LabelDataMapper labelDataMapper;
 
+    @Resource
+    private CommentsDataMapper commentsDataMapper;
 
     public Result upload(MultipartFile file,LmageData lmageData, HttpSession session) {
 
@@ -102,5 +98,42 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         }
 
         return Result.ok("文件上传成功");
+    }
+
+    //评论写入
+    public Result commentsWrite(CommentsData commentsData, HttpSession session) {
+//        QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
+//        userDataQueryWrapper.eq("userId",session.getAttribute("token"));
+//        UserData userData = userDataMapper.selectOne(userDataQueryWrapper);
+        commentsDataMapper.insert(commentsData);
+        return Result.ok("评论成功");
+    }
+
+
+    //评论查询
+    public Result showComments(String lmageId) {
+        QueryWrapper<CommentsData> commentsDataQueryWrapper = new QueryWrapper<>();
+        commentsDataQueryWrapper.eq("lmageId",lmageId);
+        List<CommentsData> commentsData = commentsDataMapper.selectList(commentsDataQueryWrapper);
+        return Result.ok(commentsData);
+    }
+
+    //作品搜索
+    public Result lmageSearch(String lmageName,Integer type) {
+        if (type == 1){
+            QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+            lmageDataQueryWrapper.eq("lmageName",lmageName);
+            lmageDataMapper.selectList(lmageDataQueryWrapper);
+            return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
+        }
+
+        if (type == 2){
+            QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+            lmageDataQueryWrapper.eq("labelName",lmageName);
+            lmageDataMapper.selectList(lmageDataQueryWrapper);
+            return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
+        }
+
+        return Result.fail("无作品");
     }
 }
