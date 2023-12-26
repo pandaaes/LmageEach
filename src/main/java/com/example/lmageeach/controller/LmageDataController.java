@@ -1,5 +1,6 @@
 package com.example.lmageeach.controller;
 
+import com.example.lmageeach.config.AliyunOSS;
 import com.example.lmageeach.model.CommentsData;
 import com.example.lmageeach.model.LmageData;
 import com.example.lmageeach.model.SupportData;
@@ -28,11 +29,13 @@ public class LmageDataController {
     @Resource
     private SupportDataServiceImpl supportDataService;
 
-    //上传
+    //上传图片
     @RequestMapping("/upload")
     public Result lmageUpload(@RequestParam("image") MultipartFile file, @RequestBody LmageData lmageData, HttpSession session){
         return lmageDataService.upload(file,lmageData,session);
     }
+
+
 
     //查看所有作品
     @RequestMapping("/imageAll")

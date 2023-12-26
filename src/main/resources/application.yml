@@ -18,7 +18,11 @@ spring:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #    map-underscore-to-camel-case: true
 
-mybatis-plus:
-  configuration:
-    map-underscore-to-camel-case: true
 
+aliyun:
+  oos:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    accessKeyId: LTAI5tMAUu4mqRY6kSY6oiyA
+    accessKeySecret: k7O5TYCGxDrGrZIjdFfXVrCCpkUZ9U
+    bucketName: imageearch
+    filedir: image/

@@ -8,17 +8,14 @@ import com.example.lmageeach.mapper.CommentsDataMapper;
 import com.example.lmageeach.mapper.LabelDataMapper;
 import com.example.lmageeach.mapper.LmageDataMapper;
 import com.example.lmageeach.mapper.UserDataMapper;
-import com.example.lmageeach.model.CommentsData;
-import com.example.lmageeach.model.LabelData;
-import com.example.lmageeach.model.LmageData;
-import com.example.lmageeach.model.UserData;
+import com.example.lmageeach.model.*;
+import com.example.lmageeach.service.aliyunOSS.OSSService;
 import com.example.lmageeach.util.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +25,7 @@ import java.util.UUID;
 @Service
 public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData> implements LmageDataService {
 
-    private final String filePath = "D:\\idea\\test\\LmageEach\\src\\main\\resources\\Image\\";
+//    private final String filePath = "D:\\idea\\test\\LmageEach\\src\\main\\resources\\Image\\";
 
     @Resource
     private LmageDataMapper lmageDataMapper;
@@ -42,6 +39,9 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     @Resource
     private CommentsDataMapper commentsDataMapper;
 
+    @Resource
+    private OSSService ossService;
+
     public Result upload(MultipartFile file,LmageData lmageData, HttpSession session) {
 
         // 检查文件是否为空
@@ -49,18 +49,24 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
             return Result.fail("请选择文件");
         }
 
-        //检查文件系统是否存在
-        File dir = new File(filePath);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+//        //检查文件系统是否存在
+//        File dir = new File(filePath);
+//        if (!dir.exists()) {
+//            dir.mkdirs();
+//        }
 
-        File destFile = new File(filePath + lmageData.getLmageName());
+//        File destFile = new File(filePath + lmageData.getLmageName());
 
         try {
+            //图片上传oss
+            String fileURL = ossService.checkImage(file);
+
+            if (fileURL == null )
+                return Result.fail("上传失败");
+
             //保存文件和地址
-            file.transferTo(destFile);
-            lmageData.setLmageData(String.valueOf(destFile.getAbsolutePath()));
+//            file.transferTo(destFile);
+            lmageData.setLmageData(fileURL);
 
             //设置图片id
             String lmageUUID = UUID.randomUUID().toString();
@@ -92,7 +98,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
             lmageData.setCreateTime(LocalDate.now());
 
             lmageDataMapper.insert(lmageData);
-        }catch (IOException e){
+        }catch (Exception e){
             e.printStackTrace();
             return Result.fail("文件保存失败");
         }
