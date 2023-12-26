@@ -59,11 +59,12 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
 
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<UserData>();
 
-        userDataQueryWrapper.eq("userId", session.getAttribute("token"));
+        userDataQueryWrapper.eq("user_id", session.getAttribute("token"));
 
         List<UserData> userData1 = userDataMapper.selectList(userDataQueryWrapper);
-
-        return Result.ok(userData1);
+        if (userData1.isEmpty())
+            return Result.fail("系统错误");
+        return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
     }
 
 
@@ -92,10 +93,10 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
     //个人作品查询
     public Result artwork(UserData userData, HttpSession session) {
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
-        userDataQueryWrapper.eq("userId",session.getAttribute("token"));
+        userDataQueryWrapper.eq("user_id",session.getAttribute("token"));
         UserData user = userDataMapper.selectOne(userDataQueryWrapper);
         QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-        lmageDataQueryWrapper.eq("userName",user.getUsername());
+        lmageDataQueryWrapper.eq("user_name",user.getUsername());
         List<LmageData> lmageDataList = lmageDataMapper.selectList(lmageDataQueryWrapper);
         return Result.ok(lmageDataList);
     }
@@ -105,12 +106,12 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
         concernDataMapper.insert(concernData);
 
         UpdateWrapper<UserData> userDataUpdateWrapper = Wrappers.update();
-        userDataUpdateWrapper.eq("userId",concernData.getUserId());
+        userDataUpdateWrapper.eq("user_id",concernData.getUserId());
         userDataUpdateWrapper.setSql("concern = concern + 1");
         userDataMapper.update(null,userDataUpdateWrapper);
 
         UpdateWrapper<UserData> userDataUpdateWrapperTwo = Wrappers.update();
-        userDataUpdateWrapperTwo.eq("userId",concernData.getAuthorId());
+        userDataUpdateWrapperTwo.eq("user_id",concernData.getAuthorId());
         userDataUpdateWrapperTwo.setSql("fans = fans + 1");
         userDataMapper.update(null,userDataUpdateWrapperTwo);
 

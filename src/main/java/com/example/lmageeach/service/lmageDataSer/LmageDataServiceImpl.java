@@ -68,7 +68,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
             //图片标签
             QueryWrapper<LabelData> labelDataQueryWrapper = new QueryWrapper<>();
-            labelDataQueryWrapper.eq("labelName",lmageData.getLabelName());
+            labelDataQueryWrapper.eq("label_name",lmageData.getLabelName());
             List<LabelData> newLabelData = labelDataMapper.selectList(labelDataQueryWrapper);
             if (newLabelData.isEmpty()){
                 LabelData labelData = new LabelData();
@@ -77,14 +77,14 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
                 labelDataMapper.insert(labelData);
             }else {
                 UpdateWrapper<LabelData> update = Wrappers.update();
-                update.eq("labelName",lmageData.getLmageName());
+                update.eq("label_name",lmageData.getLmageName());
                 update.setSql("total = total + 1");
                 labelDataMapper.update(null,update);
             }
 
             //作者
             QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
-            userDataQueryWrapper.eq("userId",session.getAttribute("token"));
+            userDataQueryWrapper.eq("user_id",session.getAttribute("token"));
             UserData userData = userDataMapper.selectOne(userDataQueryWrapper);
             lmageData.setUser_name(userData.getUsername());
 
@@ -113,7 +113,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     //评论查询
     public Result showComments(String lmageId) {
         QueryWrapper<CommentsData> commentsDataQueryWrapper = new QueryWrapper<>();
-        commentsDataQueryWrapper.eq("lmageId",lmageId);
+        commentsDataQueryWrapper.eq("lmage_id",lmageId);
         List<CommentsData> commentsData = commentsDataMapper.selectList(commentsDataQueryWrapper);
         return Result.ok(commentsData);
     }
@@ -122,14 +122,14 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     public Result lmageSearch(String lmageName,Integer type) {
         if (type == 1){
             QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-            lmageDataQueryWrapper.eq("lmageName",lmageName);
+            lmageDataQueryWrapper.eq("lmage_name",lmageName);
             lmageDataMapper.selectList(lmageDataQueryWrapper);
             return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
         }
 
         if (type == 2){
             QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-            lmageDataQueryWrapper.eq("labelName",lmageName);
+            lmageDataQueryWrapper.eq("lmage_name",lmageName);
             lmageDataMapper.selectList(lmageDataQueryWrapper);
             return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
         }

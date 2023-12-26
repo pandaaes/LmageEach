@@ -10,25 +10,26 @@ import com.example.lmageeach.model.LmageData;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, SupportData> implements SupportDataService {
 
     @Resource
     private SupportDataMapper supportDataMapper;
 
-    @Autowired
+    @Resource
     private LmageDataMapper lmageDataMapper;
 
     //点赞功能
     public Result lmageSupport(SupportData supportData,Integer type) {
         if (type==1){
             UpdateWrapper<LmageData> update = Wrappers.update();
-            update.eq("lmageId",supportData.getLmageId());
+            update.eq("lmage_id",supportData.getLmageId());
             update.setSql("support = support + 1");
             lmageDataMapper.update(null,update);
             supportDataMapper.insert(supportData);
@@ -37,12 +38,12 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
 
         if (type == 2){
             UpdateWrapper<LmageData> update = Wrappers.update();
-            update.eq("lmageId",supportData.lmageId);
+            update.eq("lmage_id",supportData.lmageId);
             update.setSql("support = support - 1");
             lmageDataMapper.update(null,update);
 
             QueryWrapper<SupportData> supportDataQueryWrapper = new QueryWrapper<>();
-            supportDataQueryWrapper.eq("userId",supportData.getUserId()).eq("lmageId",supportData.getLmageId());
+            supportDataQueryWrapper.eq("user_id",supportData.getUserId()).eq("lmage_id",supportData.getLmageId());
             supportDataMapper.delete(supportDataQueryWrapper);
 
             return Result.ok("已取消点赞");
@@ -55,14 +56,14 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
     //查看点赞作品
     public Result showSupport(SupportData supportData) {
         QueryWrapper<SupportData> supportDataQueryWrapper = new QueryWrapper<>();
-        supportDataQueryWrapper.eq("userId",supportData.getUserId());
+        supportDataQueryWrapper.eq("user_id",supportData.getUserId());
         List<SupportData> supportData1 = supportDataMapper.selectList(supportDataQueryWrapper);
         List<String> list = new ArrayList<>();
         for (SupportData data : supportData1) {
             list.add(data.getLmageId());
         }
         QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-        lmageDataQueryWrapper.in("lmageId",list);
+        lmageDataQueryWrapper.in("lmage_id",list);
 //        lmageDataMapper.selectList(lmageDataQueryWrapper);
         return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
     }

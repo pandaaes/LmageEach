@@ -8,11 +8,14 @@ import com.example.lmageeach.model.ConcernData;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.model.UserData;
 import com.example.lmageeach.util.Result;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Service
 public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, ConcernData> implements ConcernDataService {
 
     @Resource
@@ -25,7 +28,7 @@ public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, Conce
     //查看关注
     public Result showConcern(String userId) {
         QueryWrapper<ConcernData> concernDataQueryWrapper = new QueryWrapper<>();
-        concernDataQueryWrapper.eq("userId", userId);
+        concernDataQueryWrapper.eq("user_id", userId);
         List<ConcernData> concernData1 = concernDataMapper.selectList(concernDataQueryWrapper);
         ArrayList<String> list = new ArrayList<>();
         for (ConcernData data : concernData1) {
@@ -33,14 +36,14 @@ public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, Conce
         }
 
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
-        userDataQueryWrapper.in("userId",list);
+        userDataQueryWrapper.in("user_id",list);
         return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
     }
 
     //查看粉丝
     public Result showBeConcern(String userId) {
         QueryWrapper<ConcernData> concernDataQueryWrapperFans = new QueryWrapper<>();
-        concernDataQueryWrapperFans.eq("authorId", userId);
+        concernDataQueryWrapperFans.eq("author_id", userId);
         List<ConcernData> concernData1 = concernDataMapper.selectList(concernDataQueryWrapperFans);
         ArrayList<String> list = new ArrayList<>();
         for (ConcernData data : concernData1) {
@@ -48,7 +51,7 @@ public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, Conce
         }
 
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
-        userDataQueryWrapper.in("userId",list);
+        userDataQueryWrapper.in("user_id",list);
         return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
     }
 }
