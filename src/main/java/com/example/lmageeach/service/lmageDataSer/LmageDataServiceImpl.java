@@ -9,14 +9,13 @@ import com.example.lmageeach.mapper.LabelDataMapper;
 import com.example.lmageeach.mapper.LmageDataMapper;
 import com.example.lmageeach.mapper.UserDataMapper;
 import com.example.lmageeach.model.*;
-import com.example.lmageeach.service.aliyunOSS.OSSService;
+import com.example.lmageeach.util.OSSService;
 import com.example.lmageeach.util.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.example.lmageeach.service.aliyunOSS;
+package com.example.lmageeach.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
