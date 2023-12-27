@@ -1,11 +1,10 @@
 package com.example.lmageeach.controller;
 
-import com.example.lmageeach.config.AliyunOSS;
+
 import com.example.lmageeach.model.CommentsData;
 import com.example.lmageeach.model.LmageData;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.service.LabelDataSer.LabelDataServiceImpl;
-import com.example.lmageeach.service.SupportDataSer.SupportDataService;
 import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
 import com.example.lmageeach.service.lmageDataSer.LmageDataServiceImpl;
 import com.example.lmageeach.util.Result;
