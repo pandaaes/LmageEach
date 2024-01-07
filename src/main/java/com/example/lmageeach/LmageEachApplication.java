@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @MapperScan("com/example/lmageeach/mapper")
 //@CrossOrigin(origins = "*")
 //@ServletComponentScan("com/example/lmageeach/config")
-@ComponentScan(basePackages = { "com.example.lmageeach.config" })
+//@ComponentScan(basePackages = { "com.example.lmageeach.config" })
 public class LmageEachApplication {
 
     public static void main(String[] args) {

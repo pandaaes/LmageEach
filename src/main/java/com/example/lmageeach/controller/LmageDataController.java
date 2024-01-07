@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/lmage")
 public class LmageDataController {
