@@ -7,10 +7,7 @@ import com.example.lmageeach.service.ConcernDataSer.ConcernDataServiceImpl;
 import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
 import com.example.lmageeach.service.UserDataSer.UserDataServiceImpl;
 import com.example.lmageeach.util.Result;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -34,7 +31,7 @@ public class UserDataController {
      * @param session
      * @return
      */
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public Result login(@RequestBody UserData userData, HttpSession session){
         return userDataService.login(userData,session);
     }
