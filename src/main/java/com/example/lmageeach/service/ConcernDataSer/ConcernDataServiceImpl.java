@@ -25,7 +25,11 @@ public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, Conce
     private UserDataMapper userDataMapper;
 
 
-    //查看关注
+    /**
+     * 查看关注
+     * @param userId
+     * @return
+     */
     public Result showConcern(String userId) {
         QueryWrapper<ConcernData> concernDataQueryWrapper = new QueryWrapper<>();
         concernDataQueryWrapper.eq("user_id", userId);
@@ -40,7 +44,11 @@ public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, Conce
         return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
     }
 
-    //查看粉丝
+    /**
+     * 查看粉丝
+     * @param userId
+     * @return
+     */
     public Result showBeConcern(String userId) {
         QueryWrapper<ConcernData> concernDataQueryWrapperFans = new QueryWrapper<>();
         concernDataQueryWrapperFans.eq("author_id", userId);

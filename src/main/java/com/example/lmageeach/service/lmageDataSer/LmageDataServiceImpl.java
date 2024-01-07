@@ -41,9 +41,17 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     @Resource
     private OSSService ossService;
 
+    /**
+     * 文件上传
+     * @param file
+     * @param lmageData
+     * @param session
+     * @return
+     */
     public Result upload(MultipartFile file,LmageData lmageData, HttpSession session) {
 
-        // 检查文件是否为空
+
+        //检查文件是否为空
         if (file.isEmpty()) {
             return Result.fail("请选择文件");
         }
@@ -53,7 +61,6 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 //        if (!dir.exists()) {
 //            dir.mkdirs();
 //        }
-
 //        File destFile = new File(filePath + lmageData.getLmageName());
 
         try {
@@ -105,7 +112,14 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         return Result.ok("文件上传成功");
     }
 
-    //评论写入
+
+
+    /**
+     * 评论
+     * @param commentsData
+     * @param session
+     * @return
+     */
     public Result commentsWrite(CommentsData commentsData, HttpSession session) {
 //        QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
 //        userDataQueryWrapper.eq("userId",session.getAttribute("token"));
@@ -115,7 +129,13 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     }
 
 
-    //评论查询
+
+
+    /**
+     * 评论查询
+     * @param lmageId
+     * @return
+     */
     public Result showComments(String lmageId) {
         QueryWrapper<CommentsData> commentsDataQueryWrapper = new QueryWrapper<>();
         commentsDataQueryWrapper.eq("lmage_id",lmageId);
@@ -123,7 +143,12 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         return Result.ok(commentsData);
     }
 
-    //作品搜索
+    /**
+     * 作品搜索
+     * @param lmageName
+     * @param type
+     * @return
+     */
     public Result lmageSearch(String lmageName,Integer type) {
         if (type == 1){
             QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
@@ -142,7 +167,12 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         return Result.fail("无作品");
     }
 
-    //查看所有作品
+
+
+    /**
+     * 查看所有作品
+     * @return
+     */
     public Result imageAll() {
         return Result.ok(lmageDataMapper.selectList(null));
     }

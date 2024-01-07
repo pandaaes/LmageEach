@@ -33,8 +33,12 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
     private ConcernDataMapper concernDataMapper;
 
 
-
-    //登录
+    /**
+     * 登录
+     * @param userData
+     * @param session
+     * @return
+     */
     public Result login(UserData userData, HttpSession session) {
 
         QueryWrapper<UserData> QueryWrapper = new QueryWrapper<UserData>();
@@ -46,15 +50,22 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
             String token = UUID.randomUUID().toString();
             userData.setUserId(token);
             userDataMapper.insert(userData);
+            session.setAttribute("token",userData.userId);
+        }else {
+            for (UserData data : userData1) {
+                session.setAttribute("token",data.userId);
+            }
         }
-
-        session.setAttribute("token",userData.userId);
 
         return Result.ok();
     }
 
 
-    //个人信息查询
+    /**
+     * 个人信息查询
+     * @param session
+     * @return
+     */
     public Result userInformation(HttpSession session) {
 
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<UserData>();
@@ -68,7 +79,12 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
     }
 
 
-    //用户信息修改
+    /**
+     * 用户信息修改
+     * @param userData
+     * @param session
+     * @return
+     */
     public Result modifyInformation(UserData userData,HttpSession session) {
 //        Result result = userInformation(session);
         UpdateWrapper<UserData> updateWrapper =Wrappers.update();
@@ -90,7 +106,13 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
         return Result.ok();
     }
 
-    //个人作品查询
+
+    /**
+     * 个人作品查询
+     * @param userData
+     * @param session
+     * @return
+     */
     public Result artwork(UserData userData, HttpSession session) {
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
         userDataQueryWrapper.eq("user_id",session.getAttribute("token"));
@@ -101,7 +123,13 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
         return Result.ok(lmageDataList);
     }
 
-    //关注
+
+
+    /**
+     * 关注
+     * @param concernData
+     * @return
+     */
     public Result concern(ConcernData concernData) {
         concernDataMapper.insert(concernData);
 

@@ -28,7 +28,14 @@ public class LmageDataController {
     @Resource
     private SupportDataServiceImpl supportDataService;
 
-    //上传图片
+
+    /**
+     * 上传图片
+     * @param file
+     * @param lmageData
+     * @param session
+     * @return
+     */
     @RequestMapping("/upload")
     public Result lmageUpload(@RequestParam("image") MultipartFile file, @RequestBody LmageData lmageData, HttpSession session){
         return lmageDataService.upload(file,lmageData,session);
@@ -36,7 +43,10 @@ public class LmageDataController {
 
 
 
-    //查看所有作品
+    /**
+     * 查看所有作品
+     * @return
+     */
     @RequestMapping("/imageAll")
     public Result imageAll(){
         return lmageDataService.imageAll();
@@ -54,20 +64,33 @@ public class LmageDataController {
     }
 
 
-    //标签list
+    /**
+     * 标签list
+     * @return
+     */
     @RequestMapping("/labelList")
     public Result labelList(){
         return labelDataService.labeList();
     }
 
 
-    //输入评论
+
+    /**
+     * 输入评论
+     * @param commentsData
+     * @param session
+     * @return
+     */
     @RequestMapping("/commentsWrite")
     public Result commentsWrite(@RequestBody CommentsData commentsData, HttpSession session){
         return lmageDataService.commentsWrite(commentsData,session);
     }
 
-    //评论查询
+    /**
+     * 评论查询
+     * @param lmageId
+     * @return
+     */
     @RequestMapping("/showComments")
     public Result showComments(@RequestParam("lmage") String lmageId){
         return lmageDataService.showComments(lmageId);

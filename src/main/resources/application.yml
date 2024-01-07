@@ -18,6 +18,9 @@ spring:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #    map-underscore-to-camel-case: true
 
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
 
 aliyun:
   oos:

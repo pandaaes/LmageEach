@@ -25,7 +25,12 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
     @Resource
     private LmageDataMapper lmageDataMapper;
 
-    //点赞功能
+    /**
+     * 点赞功能
+     * @param supportData
+     * @param type
+     * @return
+     */
     public Result lmageSupport(SupportData supportData,Integer type) {
         if (type==1){
             UpdateWrapper<LmageData> update = Wrappers.update();
@@ -53,7 +58,11 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
     }
 
 
-    //查看点赞作品
+    /**
+     * 查看点赞作品
+     * @param supportData
+     * @return
+     */
     public Result showSupport(SupportData supportData) {
         QueryWrapper<SupportData> supportDataQueryWrapper = new QueryWrapper<>();
         supportDataQueryWrapper.eq("user_id",supportData.getUserId());

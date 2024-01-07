@@ -28,49 +28,84 @@ public class UserDataController {
     @Resource
     private ConcernDataServiceImpl concernDataService;
 
-    //登录
+    /**
+     * 登录
+     * @param userData
+     * @param session
+     * @return
+     */
     @RequestMapping("/login")
     public Result login(@RequestBody UserData userData, HttpSession session){
         return userDataService.login(userData,session);
     }
 
-    //个人信息查询
+    /**
+     * 个人信息查询
+     * @param session
+     * @return
+     */
     @RequestMapping("/Information")
     public Result userInformation(HttpSession session){
         return userDataService.userInformation(session);
     }
 
-    //修改个人信息
+    /**
+     * 修改个人信息
+     * @param userData
+     * @param session
+     * @return
+     */
     @RequestMapping("/modifyInformation")
     public Result modifyInformation(@RequestBody UserData userData,HttpSession session){
         return userDataService.modifyInformation(userData,session);
     }
 
-    //个人作品查询
+    /**
+     * 个人作品查询
+     * @param userData
+     * @param session
+     * @return
+     */
     @RequestMapping("/artwork")
     public Result userArtwork(@RequestBody UserData userData,HttpSession session){
         return userDataService.artwork(userData,session);
     }
 
-    //作者关注
+    /**
+     * 作者关注
+     * @param concernData
+     * @return
+     */
     @RequestMapping("/concern")
     public Result concern(@RequestBody ConcernData concernData){
         return userDataService.concern(concernData);
     }
 
-    //查看点赞作品
+    /**
+     * 查看点赞作品
+     * @param supportData
+     * @return
+     */
     @RequestMapping("showSupport")
     public Result showSupport(@RequestBody SupportData supportData){
         return supportDataService.showSupport(supportData);
     }
 
-    //查看关注
+    /**
+     * 查看关注
+     * @param userId
+     * @return
+     */
     @RequestMapping("showConcern")
     public Result showConcern(@RequestParam("userId") String userId){
         return concernDataService.showConcern(userId);
     }
 
-    //查看粉丝
+    /**
+     * 查看粉丝
+     * @param userId
+     * @return
+     */
     @RequestMapping("showBeConcern")
     public Result showBeConcern(@RequestParam("userId") String userId){
         return concernDataService.showBeConcern(userId);

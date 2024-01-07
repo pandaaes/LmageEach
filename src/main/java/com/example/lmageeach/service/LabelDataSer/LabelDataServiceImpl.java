@@ -15,6 +15,10 @@ public class LabelDataServiceImpl extends ServiceImpl<LabelDataMapper,LabelData>
     @Resource
     private LabelDataMapper labelDataMapper;
 
+    /**
+     * 所有标签
+     * @return
+     */
     public Result labeList() {
         QueryWrapper<LabelData> labelDataQueryWrapper = new QueryWrapper<>();
         labelDataQueryWrapper.orderByDesc("total");
