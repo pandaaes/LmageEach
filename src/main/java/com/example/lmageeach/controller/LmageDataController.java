@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/lmage")
+@RequestMapping("/api/lmage")
 public class LmageDataController {
 
     @Autowired
