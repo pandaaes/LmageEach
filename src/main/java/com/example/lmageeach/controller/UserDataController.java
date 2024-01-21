@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserDataController {
 
     @Resource
@@ -32,7 +32,7 @@ public class UserDataController {
      * @param session
      * @return
      */
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public Result login(@RequestBody UserData userData, HttpSession session){
         return userDataService.login(userData,session);
     }
