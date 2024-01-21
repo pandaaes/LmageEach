@@ -2,6 +2,8 @@ package com.example.lmageeach.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.CannedAccessControlList;
+import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,6 +77,13 @@ public class OSSService{
 
                 //上传文件
                 ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+                //判断仓库是否存在
+                if (!ossClient.doesBucketExist(bucketName)){
+                    CreateBucketRequest createBucketRequest = new CreateBucketRequest(null);
+                    createBucketRequest.setBucketName(bucketName);
+                    createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);
+                    ossClient.createBucket(createBucketRequest);
+                }
                 PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
                 ret = putResult.getETag();
             } catch (IOException e) {

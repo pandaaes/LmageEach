@@ -98,7 +98,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
             QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
             userDataQueryWrapper.eq("user_id",session.getAttribute("token"));
             UserData userData = userDataMapper.selectOne(userDataQueryWrapper);
-            lmageData.setUser_name(userData.getUsername());
+            lmageData.setUserName(userData.getUsername());
 
             //时间
             lmageData.setCreateTime(LocalDate.now());
@@ -145,26 +145,26 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
     /**
      * 作品搜索
-     * @param lmageName
+     * @param Name
      * @param type
      * @return
      */
-    public Result lmageSearch(String lmageName,Integer type) {
+    public Result lmageSearch(String Name,Integer type) {
         if (type == 1){
             QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-            lmageDataQueryWrapper.eq("lmage_name",lmageName);
+            lmageDataQueryWrapper.eq("lmage_name",Name);
             lmageDataMapper.selectList(lmageDataQueryWrapper);
             return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
         }
 
         if (type == 2){
             QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-            lmageDataQueryWrapper.eq("lmage_name",lmageName);
+            lmageDataQueryWrapper.eq("label_name",Name);
             lmageDataMapper.selectList(lmageDataQueryWrapper);
             return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
         }
 
-        return Result.fail("无作品");
+        return Result.ok();
     }
 
 

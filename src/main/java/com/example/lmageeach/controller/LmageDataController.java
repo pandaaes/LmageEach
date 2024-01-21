@@ -55,13 +55,13 @@ public class LmageDataController {
 
     /**
      * 作品搜索
-     * @param lmageName 搜索名称或者标签名称
+     * @param Name 搜索名称或者标签名称
      * @param type 1：名称搜索  2：标签搜索
      * @return
      */
     @RequestMapping("/search")
-    public Result lmageSearch(@RequestParam("lmageName") String lmageName,@RequestParam("type") Integer type){
-        return lmageDataService.lmageSearch(lmageName,type);
+    public Result lmageSearch(@RequestParam("Name") String Name,@RequestParam("type") Integer type){
+        return lmageDataService.lmageSearch(Name,type);
     }
 
 

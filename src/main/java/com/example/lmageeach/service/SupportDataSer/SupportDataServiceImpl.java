@@ -54,7 +54,7 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
             return Result.ok("已取消点赞");
         }
 
-        return Result.ok("操作失败");
+        return Result.fail("系统错误");
     }
 
 

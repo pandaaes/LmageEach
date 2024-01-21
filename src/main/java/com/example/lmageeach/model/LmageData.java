@@ -17,7 +17,7 @@ public class LmageData {
     public String lmageData;//图片地址
     public String lmageType;//图片类型
     public String labelName;//标签名称
-    public String user_name;//作者
+    public String userName;//作者
     public int support;//点赞
     public int downloads;//下载
     public String camera;//相机名称
@@ -71,12 +71,12 @@ public class LmageData {
         this.labelName = labelName;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getSupport() {
