@@ -13,6 +13,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册拦截器
-        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/api/user/login");
+        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/api/user/login","/api/lmage/uploadTest");
     }
 }

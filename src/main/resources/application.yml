@@ -25,7 +25,7 @@ mybatis-plus:
 aliyun:
   oos:
     endpoint: https://oss-cn-beijing.aliyuncs.com
-    accessKeyId: LTAI5tMAUu4mqRY6kSY6oiyA
-    accessKeySecret: k7O5TYCGxDrGrZIjdFfXVrCCpkUZ9U
+    accessKeyId: LTAI5tAM46qVRTQto1K732en
+    accessKeySecret: U0cku5GE1cmyVnTcYWfXb3WKcJwr8c
     bucketName: imageearch
     filedir: image/

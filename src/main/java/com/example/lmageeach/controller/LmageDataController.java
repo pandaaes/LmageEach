@@ -43,6 +43,11 @@ public class LmageDataController {
 //        return lmageDataService.upload(lmageUpload,session);
     }
 
+    @RequestMapping("/uploadTest")
+    public Result lmageUploadTest( @RequestParam("file") MultipartFile file){
+        return lmageDataService.uploadTest(file);
+    }
+
 
 
     /**

@@ -181,4 +181,14 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     public Result imageAll() {
         return Result.ok(lmageDataMapper.selectList(null));
     }
+
+
+    /**
+     * 上传ossces
+     * @param file
+     * @return
+     */
+    public Result uploadTest(MultipartFile file) {
+        return ossService.uploadTest(file);
+    }
 }
