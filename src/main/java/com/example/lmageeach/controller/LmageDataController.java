@@ -2,8 +2,6 @@ package com.example.lmageeach.controller;
 
 
 import com.example.lmageeach.model.CommentsData;
-import com.example.lmageeach.model.LmageData;
-import com.example.lmageeach.model.LmageUpload;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.service.LabelDataSer.LabelDataServiceImpl;
 import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
@@ -38,10 +36,10 @@ public class LmageDataController {
      */
     @RequestMapping("/upload")
     public Result lmageUpload( @RequestParam("file") MultipartFile file,@RequestParam("lmageName") String lmageName,
-                               @RequestParam("labelNamee") String labelName,@RequestParam("userName") String userName,
+                               @RequestParam("labelNamee") String labelName,@RequestParam("lmageType") String lmageType,
 //                               @RequestBody LmageUpload lmageUpload,
                                HttpSession session){
-        return lmageDataService.upload(file,lmageName,labelName,userName,session);
+        return lmageDataService.upload(file,lmageName,labelName,lmageType,session);
 //        return lmageDataService.upload(lmageUpload,session);
     }
 

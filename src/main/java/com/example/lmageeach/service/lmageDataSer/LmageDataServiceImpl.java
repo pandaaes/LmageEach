@@ -46,12 +46,12 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
      * @return
      */
 //    public Result upload(LmageUpload lmageUpload, HttpSession session) {
-      public Result upload(MultipartFile file,String lmageName,String labelName,String userName, HttpSession session) {
+      public Result upload(MultipartFile file,String lmageName,String labelName,String lmageType, HttpSession session) {
 
         LmageData lmageData = new LmageData();
         lmageData.setLmageName(lmageName);
         lmageData.setLabelName(labelName);
-        lmageData.setUserName(userName);
+        lmageData.setLmageType(lmageType);
         //检查文件是否为空
         if (file.isEmpty()) {
             return Result.fail("请选择文件");

@@ -67,16 +67,17 @@ public class OSSService{
             String ret = "";
             OSS ossClient = null;
             try {
-                //创建上传Object的Metadata
-                ObjectMetadata objectMetadata = new ObjectMetadata();
-                objectMetadata.setContentLength(instream.available());
-                objectMetadata.setCacheControl("no-cache");
-                objectMetadata.setHeader("Pragma", "no-cache");
-                objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
-                objectMetadata.setContentDisposition("inline;filename=" + fileName);
+//                //创建上传Object的Metadata
+//                ObjectMetadata objectMetadata = new ObjectMetadata();
+//                objectMetadata.setContentLength(instream.available());
+//                objectMetadata.setCacheControl("no-cache");
+//                objectMetadata.setHeader("Pragma", "no-cache");
+//                objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
+//                objectMetadata.setContentDisposition("inline;filename=" + fileName);
 
                 //上传文件
                 ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+                ossClient.setBucketAcl(bucketName,CannedAccessControlList.PublicRead);
                 //判断仓库是否存在
                 if (!ossClient.doesBucketExist(bucketName)){
                     CreateBucketRequest createBucketRequest = new CreateBucketRequest(null);
@@ -84,9 +85,11 @@ public class OSSService{
                     createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);
                     ossClient.createBucket(createBucketRequest);
                 }
-                PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
+                PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream
+//                        , objectMetadata
+                );
                 ret = putResult.getETag();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.getMessage();
             } finally {
                 try {
