@@ -38,10 +38,9 @@ public class LmageDataController {
      */
     @RequestMapping("/upload")
     public Result lmageUpload( @RequestParam("file") MultipartFile file,@RequestParam("lmageName") String lmageName,
-                               @RequestParam("fillabelNamee") String labelName,@RequestParam("userName") String userName,
+                               @RequestParam("labelNamee") String labelName,@RequestParam("userName") String userName,
 //                               @RequestBody LmageUpload lmageUpload,
-                               HttpSession session
-    ){
+                               HttpSession session){
         return lmageDataService.upload(file,lmageName,labelName,userName,session);
 //        return lmageDataService.upload(lmageUpload,session);
     }
