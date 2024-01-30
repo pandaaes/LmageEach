@@ -86,24 +86,33 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
      * @return
      */
     public Result modifyInformation(UserData userData,HttpSession session) {
-//        Result result = userInformation(session);
-        UpdateWrapper<UserData> updateWrapper =Wrappers.update();
-//        if (!userData.username.isEmpty())
-//            updateWrapper.set("username",userData.getUsername());
-//        if (!userData.password.isEmpty())
-//            updateWrapper.set("password",userData.getPassword());
-//        if (!userData.firstName.isEmpty())
-//            updateWrapper.set("firstName",userData.getFirstName());
-//        if (!userData.lastName.isEmpty())
-//            updateWrapper.set("lastName",userData.getLastName());
-//        if (!userData.urban.isEmpty())
-//            updateWrapper.set("urban",userData.getUrban());
+        try {
+            UpdateWrapper<UserData> updateWrapper =Wrappers.update();
+            if (!userData.username.isEmpty())
+                updateWrapper.set("username",userData.getUsername());
+            if (!userData.password.isEmpty())
+                updateWrapper.set("password",userData.getPassword());
+            if (!userData.firstName.isEmpty())
+                updateWrapper.set("firstName",userData.getFirstName());
+            if (!userData.lastName.isEmpty())
+                updateWrapper.set("lastName",userData.getLastName());
+            if (!userData.urban.isEmpty())
+                updateWrapper.set("urban",userData.getUrban());
+            if (!userData.country.isEmpty())
+                updateWrapper.set("country",userData.getCountry());
+            if (userData.birthday != null)
+                updateWrapper.set("birthday",userData.getBirthday());
+            if (!userData.bio.isEmpty())
+                updateWrapper.set("bio",userData.getBio());
+            if (!userData.email.isEmpty())
+                updateWrapper.set("email",userData.getEmail());
+            updateWrapper.eq("userId",session.getAttribute("token"));
+            userDataMapper.update(null,updateWrapper);
+            return Result.ok("修改成功");
+        }catch (Exception e){
+            return Result.fail("修改失败");
+        }
 
-        updateWrapper.eq("userId",session.getAttribute("token"));
-
-        userDataMapper.update(userData,updateWrapper);
-
-        return Result.ok();
     }
 
 

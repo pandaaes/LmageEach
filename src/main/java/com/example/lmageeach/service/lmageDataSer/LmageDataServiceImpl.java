@@ -43,16 +43,18 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
     /**
      * 文件上传
-     * @param file
-     * @param lmageData
+     * @param lmageUpload
      * @param session
      * @return
      */
-    public Result upload(MultipartFile file,LmageData lmageData, HttpSession session) {
+    public Result upload(LmageUpload lmageUpload, HttpSession session) {
 
-
+        LmageData lmageData = new LmageData();
+        lmageData.setLmageName(lmageUpload.getLmageName());
+        lmageData.setLabelName(lmageUpload.getLabelName());
+        lmageData.setUserName(lmageUpload.getUserName());
         //检查文件是否为空
-        if (file.isEmpty()) {
+        if (lmageUpload.file.isEmpty()) {
             return Result.fail("请选择文件");
         }
 
@@ -65,7 +67,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
         try {
             //图片上传oss
-            String fileURL = ossService.checkImage(file);
+            String fileURL = ossService.checkImage(lmageUpload.file);
 
             if (fileURL == null )
                 return Result.fail("上传失败");

@@ -3,6 +3,7 @@ package com.example.lmageeach.controller;
 
 import com.example.lmageeach.model.CommentsData;
 import com.example.lmageeach.model.LmageData;
+import com.example.lmageeach.model.LmageUpload;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.service.LabelDataSer.LabelDataServiceImpl;
 import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
@@ -32,14 +33,13 @@ public class LmageDataController {
 
     /**
      * 上传图片
-     * @param file
-     * @param lmageData
+     * @param lmageUpload
      * @param session
      * @return
      */
     @RequestMapping("/upload")
-    public Result lmageUpload(@RequestParam("image") MultipartFile file, @RequestBody LmageData lmageData, HttpSession session){
-        return lmageDataService.upload(file,lmageData,session);
+    public Result lmageUpload( @RequestBody LmageUpload lmageUpload, HttpSession session){
+        return lmageDataService.upload(lmageUpload,session);
     }
 
 
