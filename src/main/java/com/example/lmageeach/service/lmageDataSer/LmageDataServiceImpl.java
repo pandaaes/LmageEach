@@ -43,18 +43,17 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
     /**
      * 文件上传
-     * @param lmageUpload
-     * @param session
      * @return
      */
-    public Result upload(LmageUpload lmageUpload, HttpSession session) {
+//    public Result upload(LmageUpload lmageUpload, HttpSession session) {
+      public Result upload(MultipartFile file,String lmageName,String labelName,String userName, HttpSession session) {
 
         LmageData lmageData = new LmageData();
-        lmageData.setLmageName(lmageUpload.getLmageName());
-        lmageData.setLabelName(lmageUpload.getLabelName());
-        lmageData.setUserName(lmageUpload.getUserName());
+        lmageData.setLmageName(lmageName);
+        lmageData.setLabelName(labelName);
+        lmageData.setUserName(userName);
         //检查文件是否为空
-        if (lmageUpload.file.isEmpty()) {
+        if (file.isEmpty()) {
             return Result.fail("请选择文件");
         }
 
@@ -67,7 +66,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
         try {
             //图片上传oss
-            String fileURL = ossService.checkImage(lmageUpload.file);
+            String fileURL = ossService.checkImage(file);
 
             if (fileURL == null )
                 return Result.fail("上传失败");
@@ -81,19 +80,23 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
             lmageData.setLmageId(lmageUUID);
 
             //图片标签
-            QueryWrapper<LabelData> labelDataQueryWrapper = new QueryWrapper<>();
-            labelDataQueryWrapper.eq("label_name",lmageData.getLabelName());
-            List<LabelData> newLabelData = labelDataMapper.selectList(labelDataQueryWrapper);
-            if (newLabelData.isEmpty()){
-                LabelData labelData = new LabelData();
-                labelData.setLabelName(lmageData.getLabelName());
-                labelData.setTotal(labelData.total++);
-                labelDataMapper.insert(labelData);
-            }else {
-                UpdateWrapper<LabelData> update = Wrappers.update();
-                update.eq("label_name",lmageData.getLmageName());
-                update.setSql("total = total + 1");
-                labelDataMapper.update(null,update);
+            String[] labelList = labelName.split(",");
+            for (String s : labelList) {
+                QueryWrapper<LabelData> labelDataQueryWrapper = new QueryWrapper<>();
+                labelDataQueryWrapper.eq("label_name",s);
+                List<LabelData> newLabelData = labelDataMapper.selectList(labelDataQueryWrapper);
+                if (newLabelData.isEmpty()){
+                    LabelData labelData = new LabelData();
+                    labelData.setLabelName(s);
+                    labelData.setTotal(labelData.total++);
+                    labelDataMapper.insert(labelData);
+                }else {
+                    UpdateWrapper<LabelData> update = Wrappers.update();
+                    update.eq("label_name",s);
+                    update.setSql("total = total + 1");
+                    labelDataMapper.update(null,update);
+                }
+
             }
 
             //作者

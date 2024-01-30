@@ -33,13 +33,17 @@ public class LmageDataController {
 
     /**
      * 上传图片
-     * @param lmageUpload
      * @param session
      * @return
      */
     @RequestMapping("/upload")
-    public Result lmageUpload( @RequestBody LmageUpload lmageUpload, HttpSession session){
-        return lmageDataService.upload(lmageUpload,session);
+    public Result lmageUpload( @RequestParam("file") MultipartFile file,@RequestParam("lmageName") String lmageName,
+                               @RequestParam("fillabelNamee") String labelName,@RequestParam("userName") String userName,
+//                               @RequestBody LmageUpload lmageUpload,
+                               HttpSession session
+    ){
+        return lmageDataService.upload(file,lmageName,labelName,userName,session);
+//        return lmageDataService.upload(lmageUpload,session);
     }
 
 
