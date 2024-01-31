@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -41,6 +43,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     @Resource
     private OSSService ossService;
 
+
     /**
      * 文件上传
      * @return
@@ -57,12 +60,18 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
             return Result.fail("请选择文件");
         }
 
-//        //检查文件系统是否存在
-//        File dir = new File(filePath);
-//        if (!dir.exists()) {
-//            dir.mkdirs();
-//        }
-//        File destFile = new File(filePath + lmageData.getLmageName());
+        //检查文件系统是否存在
+        String filePath = new File("").getAbsolutePath()+"\\image\\";
+        File dir = new File(filePath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        String originalFilename = file.getOriginalFilename();
+        String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+        Random random = new Random();
+        String name = random.nextInt(10000) + System.currentTimeMillis() + substring;
+        File destFile = new File(filePath + name);
 
         try {
             //图片上传oss
@@ -72,7 +81,8 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
                 return Result.fail("上传失败");
 
             //保存文件和地址
-//            file.transferTo(destFile);
+            file.transferTo(destFile);
+            lmageData.setLmageLocal(destFile.toString());
             lmageData.setLmageData(fileURL);
 
             //设置图片id
