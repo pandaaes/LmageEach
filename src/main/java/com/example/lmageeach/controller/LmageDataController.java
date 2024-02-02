@@ -8,11 +8,17 @@ import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
 import com.example.lmageeach.service.lmageDataSer.LmageDataServiceImpl;
 import com.example.lmageeach.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 @CrossOrigin
 @RestController
@@ -25,7 +31,7 @@ public class LmageDataController {
     @Autowired
     private LabelDataServiceImpl labelDataService;
 
-    @Resource
+    @Autowired
     private SupportDataServiceImpl supportDataService;
 
 
@@ -46,6 +52,21 @@ public class LmageDataController {
     @RequestMapping("/uploadTest")
     public Result lmageUploadTest( @RequestParam("file") MultipartFile file){
         return lmageDataService.uploadTest(file);
+    }
+
+    @RequestMapping("/{imageName}")
+    public void getImage(@PathVariable String imageName, HttpServletResponse response) throws IOException {
+        // 构建图片资源路径
+        String imagePath = "static/images/"+imageName;
+
+        // 读取图片文件
+        Resource resource = new ClassPathResource(imagePath);
+        InputStream inputStream = resource.getInputStream();
+        byte[] imageBytes = StreamUtils.copyToByteArray(inputStream);
+
+        // 设置响应头部
+        response.setContentType("image/jpeg");
+        response.getOutputStream().write(imageBytes);
     }
 
 

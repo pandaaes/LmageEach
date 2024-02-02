@@ -61,7 +61,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         }
 
         //检查文件系统是否存在
-        String filePath = new File("").getAbsolutePath()+"\\image\\";
+        String filePath = new File("").getAbsolutePath()+"/src/main/resources/static/images/";
         File dir = new File(filePath);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -82,7 +82,8 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
             //保存文件和地址
             file.transferTo(destFile);
-            lmageData.setLmageLocal(destFile.toString());
+//            lmageData.setLmageLocal(destFile.toString());
+            lmageData.setLmageLocal(name);
             lmageData.setLmageData(fileURL);
 
             //设置图片id
