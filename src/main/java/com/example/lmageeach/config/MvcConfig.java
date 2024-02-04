@@ -15,7 +15,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor()).excludePathPatterns(
                 "/api/user/login"
 //                ,"/api/lmage/uploadTest"
-//                ,"/api/lmage/*"
+                ,"/api/lmage/*"
         );
     }
 }

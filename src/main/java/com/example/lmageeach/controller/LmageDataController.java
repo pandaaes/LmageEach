@@ -17,6 +17,7 @@ import org.springframework.core.io.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -57,11 +58,14 @@ public class LmageDataController {
     @RequestMapping("/{imageName}")
     public void getImage(@PathVariable String imageName, HttpServletResponse response) throws IOException {
         // 构建图片资源路径
-        String imagePath = "static/images/"+imageName;
+        String imagePath = new File("").getAbsolutePath()+"/image/"+imageName;
+//        String imagePath = "static/images/"+imageName;
+        File imageFile = new File(imagePath);
 
         // 读取图片文件
-        Resource resource = new ClassPathResource(imagePath);
-        InputStream inputStream = resource.getInputStream();
+//        Resource resource = new ClassPathResource(imagePath);
+//        InputStream inputStream = resource.getInputStream();
+        FileInputStream inputStream = new FileInputStream(imageFile);
         byte[] imageBytes = StreamUtils.copyToByteArray(inputStream);
 
         // 设置响应头部

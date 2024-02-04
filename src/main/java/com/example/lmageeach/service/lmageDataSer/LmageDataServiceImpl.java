@@ -61,7 +61,8 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         }
 
         //检查文件系统是否存在
-        String filePath = new File("").getAbsolutePath()+"/src/main/resources/static/images/";
+//        String filePath = new File("").getAbsolutePath()+"/src/main/resources/static/images/";
+          String filePath = new File("").getAbsolutePath()+"/image/";
         File dir = new File(filePath);
         if (!dir.exists()) {
             dir.mkdirs();
