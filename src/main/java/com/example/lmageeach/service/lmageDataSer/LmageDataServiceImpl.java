@@ -196,11 +196,27 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
 
     /**
-     * 上传ossces
+     * 上传ossces Test
      * @param file
      * @return
      */
     public Result uploadTest(MultipartFile file) {
         return ossService.uploadTest(file);
+    }
+
+    public Result views(String lmageId) {
+        UpdateWrapper<LmageData> update = Wrappers.update();
+        update.eq("lmage_id",lmageId);
+        update.setSql("views = views + 1");
+        lmageDataMapper.update(null,update);
+        return Result.ok();
+    }
+
+    public Result downloads(String lmageId) {
+        UpdateWrapper<LmageData> update = Wrappers.update();
+        update.eq("lmage_id",lmageId);
+        update.setSql("downloads = downloads + 1");
+        lmageDataMapper.update(null,update);
+        return Result.ok();
     }
 }

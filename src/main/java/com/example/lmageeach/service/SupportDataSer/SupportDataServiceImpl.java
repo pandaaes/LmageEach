@@ -27,11 +27,14 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
 
     /**
      * 点赞功能
-     * @param supportData
      * @param type
      * @return
      */
-    public Result lmageSupport(SupportData supportData,Integer type) {
+    public Result lmageSupport(String userid,String image,Integer type) {
+
+        SupportData supportData = new SupportData();
+        supportData.setUserId(userid);
+        supportData.setLmageId(image);
         if (type==1){
             UpdateWrapper<LmageData> update = Wrappers.update();
             update.eq("lmage_id",supportData.getLmageId());

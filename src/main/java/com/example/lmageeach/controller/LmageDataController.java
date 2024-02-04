@@ -131,13 +131,30 @@ public class LmageDataController {
 
     /**
      *  作品点赞
-     * @param supportData
      * @param type 1：点赞 2：取消点赞
      * @return
      */
     @RequestMapping("/support")
-    public Result lmageSupport(@RequestParam("lmageId") SupportData supportData, @RequestParam("type") Integer type){
-        return supportDataService.lmageSupport(supportData,type);
+    public Result lmageSupport(@RequestParam("userid") String userid,@RequestParam("lmageId") String lmageId, @RequestParam("type") Integer type){
+        return supportDataService.lmageSupport(userid,lmageId,type);
+    }
+
+    /**
+     * 浏览
+     * @return
+     */
+    @RequestMapping("/views")
+    public Result lmageViews(@RequestParam("lmageId") String lmageId){
+        return lmageDataService.views(lmageId);
+    }
+
+    /**
+     * 下载
+     * @return
+     */
+    @RequestMapping("/downloads")
+    public Result lmageDownloads(@RequestParam("lmageId") String lmageId){
+        return lmageDataService.downloads(lmageId);
     }
 
 
