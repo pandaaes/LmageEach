@@ -205,11 +205,18 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
     }
 
     public Result views(String lmageId) {
-        UpdateWrapper<LmageData> update = Wrappers.update();
-        update.eq("lmage_id",lmageId);
-        update.setSql("views = views + 1");
-        lmageDataMapper.update(null,update);
-        return Result.ok();
+        QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+        lmageDataQueryWrapper.eq("lmage_id",lmageId);
+        LmageData lmageData = lmageDataMapper.selectOne(lmageDataQueryWrapper);
+        if (lmageData != null){
+            lmageData.setViews(lmageData.getViews()+1);
+            UpdateWrapper<LmageData> update = Wrappers.update();
+            update.eq("lmage_id",lmageId);
+//        update.setSql("views = views + 1");
+            lmageDataMapper.update(lmageData,update);
+            return Result.ok();
+        }
+        return Result.fail("无图片数据");
     }
 
     public Result downloads(String lmageId) {

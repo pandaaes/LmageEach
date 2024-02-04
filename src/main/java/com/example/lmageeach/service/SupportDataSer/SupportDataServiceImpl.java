@@ -9,7 +9,6 @@ import com.example.lmageeach.mapper.SupportDataMapper;
 import com.example.lmageeach.model.LmageData;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -2,6 +2,7 @@ package com.example.lmageeach.model;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,5 @@ public class LmageData {
     public String camera;//相机名称
     public LocalDate createTime;//上传日期
     public String lmageLocal;//本地文件地址
-    public int views; //浏览量
+    public int views;//浏览
 }
