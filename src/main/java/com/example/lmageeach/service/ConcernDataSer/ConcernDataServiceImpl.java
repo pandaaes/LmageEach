@@ -34,14 +34,18 @@ public class ConcernDataServiceImpl extends ServiceImpl<ConcernDataMapper, Conce
         QueryWrapper<ConcernData> concernDataQueryWrapper = new QueryWrapper<>();
         concernDataQueryWrapper.eq("user_id", userId);
         List<ConcernData> concernData1 = concernDataMapper.selectList(concernDataQueryWrapper);
-        ArrayList<String> list = new ArrayList<>();
-        for (ConcernData data : concernData1) {
-            list.add(data.getAuthorId());
-        }
+        if (concernData1.isEmpty()){
+            return Result.fail("无关注");
+        }else {
+            ArrayList<String> list = new ArrayList<>();
+            for (ConcernData data : concernData1) {
+                list.add(data.getAuthorId());
+            }
 
-        QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
-        userDataQueryWrapper.in("user_id",list);
-        return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
+            QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
+            userDataQueryWrapper.in("user_id",list);
+            return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
+        }
     }
 
     /**

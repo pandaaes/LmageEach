@@ -69,13 +69,17 @@ public class SupportDataServiceImpl extends ServiceImpl<SupportDataMapper, Suppo
         QueryWrapper<SupportData> supportDataQueryWrapper = new QueryWrapper<>();
         supportDataQueryWrapper.eq("user_id",supportData.getUserId());
         List<SupportData> supportData1 = supportDataMapper.selectList(supportDataQueryWrapper);
-        List<String> list = new ArrayList<>();
-        for (SupportData data : supportData1) {
-            list.add(data.getLmageId());
-        }
-        QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-        lmageDataQueryWrapper.in("lmage_id",list);
+        if (supportData1.isEmpty()){
+            return Result.fail("暂无点赞作品");
+        }else {
+            List<String> list = new ArrayList<>();
+            for (SupportData data : supportData1) {
+                list.add(data.getLmageId());
+            }
+            QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+            lmageDataQueryWrapper.in("lmage_id",list);
 //        lmageDataMapper.selectList(lmageDataQueryWrapper);
-        return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
+            return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
+        }
     }
 }
