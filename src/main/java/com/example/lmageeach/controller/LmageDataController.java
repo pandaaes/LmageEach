@@ -2,24 +2,21 @@ package com.example.lmageeach.controller;
 
 
 import com.example.lmageeach.model.CommentsData;
-import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.service.LabelDataSer.LabelDataServiceImpl;
 import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
+import com.example.lmageeach.service.collectionSer.CollectionDataServiceImpl;
 import com.example.lmageeach.service.lmageDataSer.LmageDataServiceImpl;
 import com.example.lmageeach.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.core.io.Resource;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 @CrossOrigin
 @RestController
@@ -34,6 +31,9 @@ public class LmageDataController {
 
     @Autowired
     private SupportDataServiceImpl supportDataService;
+
+    @Autowired
+    private CollectionDataServiceImpl collectionDataService;
 
 
     /**
@@ -137,6 +137,16 @@ public class LmageDataController {
     @RequestMapping("/support")
     public Result lmageSupport(@RequestParam("userid") String userid,@RequestParam("lmageId") String lmageId, @RequestParam("type") Integer type){
         return supportDataService.lmageSupport(userid,lmageId,type);
+    }
+
+    /**
+     *  作品收藏
+     * @param type 1：收藏 2：取消收藏
+     * @return
+     */
+    @RequestMapping("/collection")
+    public Result lmageCollection(@RequestParam("userid") String userid,@RequestParam("lmageId") String lmageId, @RequestParam("type") Integer type){
+        return collectionDataService.lmageCollection(userid,lmageId,type);
     }
 
     /**

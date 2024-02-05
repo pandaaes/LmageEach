@@ -118,17 +118,19 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
 
     /**
      * 个人作品查询
-     * @param userData
      * @param session
      * @return
      */
-    public Result artwork(UserData userData, HttpSession session) {
+    public Result artwork(HttpSession session) {
         QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
         userDataQueryWrapper.eq("user_id",session.getAttribute("token"));
         UserData user = userDataMapper.selectOne(userDataQueryWrapper);
         QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
         lmageDataQueryWrapper.eq("user_name",user.getUsername());
         List<LmageData> lmageDataList = lmageDataMapper.selectList(lmageDataQueryWrapper);
+        if (lmageDataList.isEmpty()){
+            return Result.ok("暂无作品");
+        }
         return Result.ok(lmageDataList);
     }
 
@@ -156,5 +158,32 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
     }
 
 
+    public Result userOutformation(String userId) {
+        QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<UserData>();
+
+        userDataQueryWrapper.eq("user_id", userId);
+
+        List<UserData> userData1 = userDataMapper.selectList(userDataQueryWrapper);
+        if (userData1.isEmpty())
+            return Result.fail("系统错误");
+        return Result.ok(userDataMapper.selectList(userDataQueryWrapper));
+
+    }
+
+    public Result userOutArtwork(String userId) {
+        QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
+        userDataQueryWrapper.eq("user_id",userId);
+        UserData user = userDataMapper.selectOne(userDataQueryWrapper);
+        if (user == null){
+            return Result.fail("用户不存在");
+        }
+        QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+        lmageDataQueryWrapper.eq("user_name",user.getUsername());
+        List<LmageData> lmageDataList = lmageDataMapper.selectList(lmageDataQueryWrapper);
+        if (lmageDataList.isEmpty()){
+            return Result.ok("暂无作品");
+        }
+        return Result.ok(lmageDataList);
+    }
 }
 

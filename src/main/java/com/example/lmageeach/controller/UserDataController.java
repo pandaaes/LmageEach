@@ -60,13 +60,12 @@ public class UserDataController {
 
     /**
      * 个人作品查询
-     * @param userData
      * @param session
      * @return
      */
     @RequestMapping("/artwork")
-    public Result userArtwork(@RequestBody UserData userData,HttpSession session){
-        return userDataService.artwork(userData,session);
+    public Result userArtwork(HttpSession session){
+        return userDataService.artwork(session);
     }
 
     /**
@@ -108,4 +107,24 @@ public class UserDataController {
     public Result showBeConcern(@RequestParam("userId") String userId){
         return concernDataService.showBeConcern(userId);
     }
+
+    /**
+     * 他人信息查询
+     * @return
+     */
+    @RequestMapping("/outformation")
+    public Result userOutformation(@RequestParam("userId") String userId){
+        return userDataService.userOutformation(userId);
+    }
+
+    /**
+     * 他人作品查询
+     * @return
+     */
+    @RequestMapping("/outArtwork")
+    public Result userOutArtwork(@RequestParam("userId") String userId){
+        return userDataService.userOutArtwork(userId);
+    }
+
+
 }

@@ -31,4 +31,5 @@ public class LmageData {
     public LocalDate createTime;//上传日期
     public String lmageLocal;//本地文件地址
     public int views;//浏览
+    public int collection;//收藏
 }

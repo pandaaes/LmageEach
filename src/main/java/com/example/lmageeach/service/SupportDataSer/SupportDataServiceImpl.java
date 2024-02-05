@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.lmageeach.mapper.LmageDataMapper;
 import com.example.lmageeach.mapper.SupportDataMapper;
+import com.example.lmageeach.model.CollectionData;
 import com.example.lmageeach.model.LmageData;
 import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.util.Result;
