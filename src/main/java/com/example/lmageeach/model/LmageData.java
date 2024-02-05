@@ -32,4 +32,5 @@ public class LmageData {
     public String lmageLocal;//本地文件地址
     public int views;//浏览
     public int collection;//收藏
+    public String userId;//用户id
 }

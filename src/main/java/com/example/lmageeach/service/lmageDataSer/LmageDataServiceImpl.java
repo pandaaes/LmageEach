@@ -119,6 +119,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
             userDataQueryWrapper.eq("user_id",session.getAttribute("token"));
             UserData userData = userDataMapper.selectOne(userDataQueryWrapper);
             lmageData.setUserName(userData.getUsername());
+            lmageData.setUserId(userData.getUserId());
 
             //时间
             lmageData.setCreateTime(LocalDate.now());
