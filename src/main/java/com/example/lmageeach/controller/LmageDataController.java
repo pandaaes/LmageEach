@@ -149,6 +149,7 @@ public class LmageDataController {
         return collectionDataService.lmageCollection(userid,lmageId,type);
     }
 
+
     /**
      * 浏览
      * @return

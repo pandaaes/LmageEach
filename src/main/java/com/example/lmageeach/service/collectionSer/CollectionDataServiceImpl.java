@@ -8,11 +8,14 @@ import com.example.lmageeach.mapper.CollectionDataMapper;
 import com.example.lmageeach.mapper.LmageDataMapper;
 import com.example.lmageeach.model.CollectionData;
 import com.example.lmageeach.model.LmageData;
+import com.example.lmageeach.model.SupportData;
 import com.example.lmageeach.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CollectionDataServiceImpl extends ServiceImpl<CollectionDataMapper, CollectionData> implements CollectionDataService {
@@ -58,5 +61,24 @@ public class CollectionDataServiceImpl extends ServiceImpl<CollectionDataMapper,
         }
 
         return Result.fail("系统错误");
+    }
+
+    public Result lmageShowCollection(String userid) {
+        QueryWrapper<CollectionData> collectionDataQueryWrapper = new QueryWrapper<>();
+        collectionDataQueryWrapper.eq("user_id",userid);
+        List<CollectionData> collectionData = collectionDataMapper.selectList(collectionDataQueryWrapper);
+        if (collectionData.isEmpty()){
+            return Result.fail("暂无收藏作品");
+        }else {
+            List<String> list = new ArrayList<>();
+            for (CollectionData data : collectionData) {
+                list.add(data.getLmageId());
+            }
+            QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+            lmageDataQueryWrapper.in("lmage_id",list);
+//        lmageDataMapper.selectList(lmageDataQueryWrapper);
+            return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
+        }
+
     }
 }

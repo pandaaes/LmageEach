@@ -6,6 +6,7 @@ import com.example.lmageeach.model.UserData;
 import com.example.lmageeach.service.ConcernDataSer.ConcernDataServiceImpl;
 import com.example.lmageeach.service.SupportDataSer.SupportDataServiceImpl;
 import com.example.lmageeach.service.UserDataSer.UserDataServiceImpl;
+import com.example.lmageeach.service.collectionSer.CollectionDataServiceImpl;
 import com.example.lmageeach.util.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,9 @@ public class UserDataController {
 
     @Resource
     private ConcernDataServiceImpl concernDataService;
+
+    @Resource
+    private CollectionDataServiceImpl collectionDataService;
 
     /**
      * 登录
@@ -86,6 +90,16 @@ public class UserDataController {
     @RequestMapping("showSupport")
     public Result showSupport(@RequestBody SupportData supportData){
         return supportDataService.showSupport(supportData);
+    }
+
+    /**
+     * 查看收藏作品
+     * @param userid
+     * @return
+     */
+    @RequestMapping("/ShowCollection")
+    public Result lmageShowCollection(@RequestParam("userid") String userid){
+        return collectionDataService.lmageShowCollection(userid);
     }
 
     /**
