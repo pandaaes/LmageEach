@@ -103,10 +103,13 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
                     labelData.setTotal(labelData.total++);
                     labelDataMapper.insert(labelData);
                 }else {
+                    QueryWrapper<LabelData> labelDataQueryWrapper1 = new QueryWrapper<>();
+                    labelDataQueryWrapper1.eq("label_name",s);
+                    LabelData labelData = labelDataMapper.selectOne(labelDataQueryWrapper1);
+                    labelData.setTotal(labelData.getTotal()+1);
                     UpdateWrapper<LabelData> update = Wrappers.update();
                     update.eq("label_name",s);
-                    update.setSql("total = total + 1");
-                    labelDataMapper.update(null,update);
+                    labelDataMapper.update(labelData,update);
                 }
 
             }
@@ -176,7 +179,7 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
         if (type == 2){
             QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
-            lmageDataQueryWrapper.eq("label_name",Name);
+            lmageDataQueryWrapper.like("label_name","%"+Name+"%");
             lmageDataMapper.selectList(lmageDataQueryWrapper);
             return Result.ok(lmageDataMapper.selectList(lmageDataQueryWrapper));
         }

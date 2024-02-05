@@ -142,19 +142,29 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
      * @return
      */
     public Result concern(ConcernData concernData) {
-        concernDataMapper.insert(concernData);
+        try {
+            concernDataMapper.insert(concernData);
+            QueryWrapper<UserData> userDataQueryWrapper = new QueryWrapper<>();
+            userDataQueryWrapper.eq("user_id",concernData.getUserId());
+            UserData userData = userDataMapper.selectOne(userDataQueryWrapper);
+            userData.setConcern(userData.getConcern()+1);
+            UpdateWrapper<UserData> userDataUpdateWrapper = Wrappers.update();
+            userDataUpdateWrapper.eq("user_id",concernData.getUserId());
+            userDataMapper.update(userData,userDataUpdateWrapper);
 
-        UpdateWrapper<UserData> userDataUpdateWrapper = Wrappers.update();
-        userDataUpdateWrapper.eq("user_id",concernData.getUserId());
-        userDataUpdateWrapper.setSql("concern = concern + 1");
-        userDataMapper.update(null,userDataUpdateWrapper);
+            QueryWrapper<UserData> userDataQueryWrapperTwo = new QueryWrapper<>();
+            userDataQueryWrapperTwo.eq("user_id",concernData.getAuthorId());
+            UserData userDataTwo = userDataMapper.selectOne(userDataQueryWrapperTwo);
+            userDataTwo.setFans(userData.getFans()+1);
+            UpdateWrapper<UserData> userDataUpdateWrapperTwo = Wrappers.update();
+            userDataUpdateWrapperTwo.eq("user_id",concernData.getAuthorId());
+            userDataMapper.update(userDataTwo,userDataUpdateWrapperTwo);
 
-        UpdateWrapper<UserData> userDataUpdateWrapperTwo = Wrappers.update();
-        userDataUpdateWrapperTwo.eq("user_id",concernData.getAuthorId());
-        userDataUpdateWrapperTwo.setSql("fans = fans + 1");
-        userDataMapper.update(null,userDataUpdateWrapperTwo);
+            return Result.ok("关注成功");
+        }catch (Exception e){
+            return Result.fail("关注失败");
+        }
 
-        return Result.ok("关注成功");
     }
 
 
