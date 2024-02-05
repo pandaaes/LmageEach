@@ -168,5 +168,8 @@ public class LmageDataController {
         return lmageDataService.downloads(lmageId);
     }
 
-
+    @RequestMapping("/deleteImage")
+    public Result deleteImage(@RequestParam("lmageId") String lmageId){
+        return lmageDataService.deleteImage(lmageId);
+    }
 }

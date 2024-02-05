@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.lmageeach.mapper.CommentsDataMapper;
-import com.example.lmageeach.mapper.LabelDataMapper;
-import com.example.lmageeach.mapper.LmageDataMapper;
-import com.example.lmageeach.mapper.UserDataMapper;
+import com.example.lmageeach.mapper.*;
 import com.example.lmageeach.model.*;
 import com.example.lmageeach.util.OSSService;
 import com.example.lmageeach.util.Result;
@@ -42,6 +39,12 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
 
     @Resource
     private OSSService ossService;
+
+    @Resource
+    private SupportDataMapper supportDataMapper;
+
+    @Resource
+    private CollectionDataMapper collectionDataMapper;
 
 
     /**
@@ -229,5 +232,47 @@ public class LmageDataServiceImpl extends ServiceImpl<LmageDataMapper, LmageData
         update.setSql("downloads = downloads + 1");
         lmageDataMapper.update(null,update);
         return Result.ok();
+    }
+
+    public Result deleteImage(String lmageId) {
+        try {
+            QueryWrapper<LmageData> lmageDataQueryWrapper = new QueryWrapper<>();
+            lmageDataQueryWrapper.eq("lmage_id",lmageId);
+            LmageData lmageData = lmageDataMapper.selectOne(lmageDataQueryWrapper);
+            //oss删除
+            boolean b = ossService.deleteImage(lmageData.getLmageData());
+            if (b){
+                //文件删除
+                String imagePath = new File("").getAbsolutePath()+"/image/"+lmageData.getLmageLocal();
+                File file = new File(imagePath);
+                boolean delete = file.delete();
+                if (delete) {
+                    //lmage表
+                    QueryWrapper<LmageData> lmageDataQueryWrapperDelete = new QueryWrapper<>();
+                    lmageDataQueryWrapperDelete.eq("lmage_id",lmageId);
+                    lmageDataMapper.delete(lmageDataQueryWrapperDelete);
+
+                    //support表
+                    QueryWrapper<SupportData> supportDataQueryWrapperDelete = new QueryWrapper<>();
+                    supportDataQueryWrapperDelete.eq("lmage_id",lmageId);
+                    supportDataMapper.delete(supportDataQueryWrapperDelete);
+
+                    //comments表
+                    QueryWrapper<CommentsData> commentsDataQueryWrapperDelete = new QueryWrapper<>();
+                    commentsDataQueryWrapperDelete.eq("lmage_id",lmageId);
+                    commentsDataMapper.delete(commentsDataQueryWrapperDelete);
+
+                    //collection表
+                    QueryWrapper<CollectionData> collectionDataQueryWrapper = new QueryWrapper<>();
+                    collectionDataQueryWrapper.eq("lmage_id",lmageId);
+                    collectionDataMapper.delete(collectionDataQueryWrapper);
+                } else {
+                    return Result.fail("删除失败");
+                }
+            }
+            return Result.ok("删除成功");
+        }catch (Exception e){
+            return Result.fail("删除失败");
+        }
     }
 }

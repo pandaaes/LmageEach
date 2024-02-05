@@ -1,17 +1,11 @@
 package com.example.lmageeach.util;
 
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.common.auth.CredentialsProviderFactory;
-import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
+import com.aliyun.oss.*;
 import com.aliyun.oss.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -251,7 +245,24 @@ public class OSSService {
             }
         }
         return Result.ok();
-    }}
+    }
+
+    public boolean deleteImage(String lmageData) {
+        OSS ossClient = null;
+        try {
+            ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+            String bucketName = lmageData.split("\\.")[0].split("/")[2];
+            String objectName = lmageData.substring(lmageData.indexOf("/", lmageData.indexOf("//") + 2) + 1);
+            ossClient.deleteObject(bucketName,objectName);
+            return true;
+        }catch (Exception e){
+            return false;
+        }finally {
+            ossClient.shutdown();
+        }
+
+    }
+}
 
 
 
