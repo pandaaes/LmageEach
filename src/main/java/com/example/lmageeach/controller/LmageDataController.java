@@ -168,6 +168,11 @@ public class LmageDataController {
         return lmageDataService.downloads(lmageId);
     }
 
+    /**
+     * 图片删除
+     * @param lmageId 图片id
+     * @return
+     */
     @RequestMapping("/deleteImage")
     public Result deleteImage(@RequestParam("lmageId") String lmageId){
         return lmageDataService.deleteImage(lmageId);

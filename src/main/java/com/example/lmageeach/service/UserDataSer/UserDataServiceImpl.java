@@ -88,25 +88,25 @@ public class UserDataServiceImpl extends ServiceImpl<UserDataMapper, UserData> i
     public Result modifyInformation(UserData userData,HttpSession session) {
         try {
             UpdateWrapper<UserData> updateWrapper =Wrappers.update();
-            if (!userData.username.isEmpty())
+            if (userData.getUsername() != null)
                 updateWrapper.set("username",userData.getUsername());
-            if (!userData.password.isEmpty())
+            if (userData.getPassword()!= null)
                 updateWrapper.set("password",userData.getPassword());
-            if (!userData.firstName.isEmpty())
-                updateWrapper.set("firstName",userData.getFirstName());
-            if (!userData.lastName.isEmpty())
-                updateWrapper.set("lastName",userData.getLastName());
-            if (!userData.urban.isEmpty())
+            if (userData.getFirstName()!= null)
+                updateWrapper.set("first_name",userData.getFirstName());
+            if (userData.getLastName()!= null)
+                updateWrapper.set("last_name",userData.getLastName());
+            if (userData.getUrban()!= null)
                 updateWrapper.set("urban",userData.getUrban());
-            if (!userData.country.isEmpty())
+            if (userData.getCountry()!= null)
                 updateWrapper.set("country",userData.getCountry());
-            if (userData.birthday != null)
+            if (userData.getBirthday() != null)
                 updateWrapper.set("birthday",userData.getBirthday());
-            if (!userData.bio.isEmpty())
+            if (userData.getBio()!= null)
                 updateWrapper.set("bio",userData.getBio());
-            if (!userData.email.isEmpty())
+            if (userData.getEmail()!= null)
                 updateWrapper.set("email",userData.getEmail());
-            updateWrapper.eq("userId",session.getAttribute("token"));
+            updateWrapper.eq("user_id",session.getAttribute("token"));
             userDataMapper.update(null,updateWrapper);
             return Result.ok("修改成功");
         }catch (Exception e){
